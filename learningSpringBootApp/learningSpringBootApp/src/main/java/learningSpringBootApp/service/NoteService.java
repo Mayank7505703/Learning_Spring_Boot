@@ -15,7 +15,6 @@ import learningSpringBootApp.repository.NoteRepository;
 public class NoteService {
 
   @Autowired
-  
   private NoteRepository noteRepository;
 
   public void saveNotes(Note n) {
@@ -28,5 +27,28 @@ public class NoteService {
 
   public Optional<Note> getNoteById(String id) {
     return noteRepository.findById(id);
+  }
+
+  public void deleteNoteById(String id) {
+    noteRepository.deleteById(id);
+  }
+
+  public boolean updateNote(String id, Note newNote) {
+
+    Optional<Note> oldNote = noteRepository.findById(id);
+
+    if (oldNote.isPresent()) {
+
+      Note note = oldNote.get();
+
+      note.setTitle(newNote.getTitle());
+      note.setContent(newNote.getContent());
+
+      noteRepository.save(note);
+
+      return true;
+    }
+
+    return false;
   }
 }
