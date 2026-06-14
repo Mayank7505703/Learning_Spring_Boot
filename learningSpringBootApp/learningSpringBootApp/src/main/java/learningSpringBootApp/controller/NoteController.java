@@ -3,6 +3,7 @@ package learningSpringBootApp.controller;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +26,15 @@ public class NoteController {
   @Autowired
   private NoteService noteService;
 
-  @PostMapping()
-  public String saveNotes(@RequestBody Note n) {
-    noteService.saveNotes(n);
-    return "Note saved successfully";
+  
+
+  @PostMapping("/{userName}")
+  public ResponseEntity<?> saveNotes(@RequestBody Note n , @PathVariable String userName) {
+    boolean created=noteService.saveNotes(n, userName);
+    if(created){
+      return ResponseEntity.ok("Note created");
+    }
+    return ResponseEntity.notFound().build();
   }
 
   @GetMapping

@@ -6,5 +6,5 @@ import learningSpringBootApp.entity.Note;
 
 @RestController
 public interface NoteRepository extends MongoRepository<Note, String> {
-
+ 
 }
